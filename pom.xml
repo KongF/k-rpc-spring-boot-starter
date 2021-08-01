@@ -34,6 +34,7 @@
         <netty.version>4.1.19.Final</netty.version>
         <alibaba.version>1.2.58</alibaba.version>
         <httpclient.version>4.5.2</httpclient.version>
+        <curator.version>4.0.1</curator.version>
     </properties>
 
     <build>
@@ -216,9 +217,23 @@
             <version>${slf4j.version}</version>
         </dependency>
         <!-- log4j,slf4j end -->
+        <!-- zk client -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>${curator.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-test</artifactId>
+            <version>${curator.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- zk client end -->
 
         <!-- apache.commons start -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>${commons-lang.version}</version>
@@ -228,47 +243,47 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
             <version>${commons-pool.version}</version>
-        </dependency>
+        </dependency>-->
         <!-- apache.commons end -->
 
         <!-- netty start -->
-        <dependency>
+       <!-- <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
             <version>${netty.version}</version>
-        </dependency>
+        </dependency>-->
         <!-- netty end -->
 
-        <!-- netty start -->
+        <!-- fastjson start -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${alibaba.version}</version>
         </dependency>
-        <!-- netty end -->
+        <!-- fastjson end -->
 
         <!-- httpclient start -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>${httpclient.version}</version>
-        </dependency>
+        </dependency>-->
         <!-- httpclient end -->
 
         <!-- zookeeper start -->
-        <dependency>
+       <!-- <dependency>
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>3.4.6</version>
-        </dependency>
+        </dependency>-->
         <!-- zookeeper end -->
 
         <!-- cat monitor start-->
-        <dependency>
+       <!-- <dependency>
             <groupId>com.dianping.cat</groupId>
             <artifactId>cat-client</artifactId>
             <version>3.0.0</version>
-        </dependency>
+        </dependency>-->
         <!-- cat monitor end-->
 
     </dependencies>
