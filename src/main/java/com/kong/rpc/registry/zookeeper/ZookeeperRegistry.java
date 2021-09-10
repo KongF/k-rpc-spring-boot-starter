@@ -37,6 +37,5 @@ public class ZookeeperRegistry {
             zkClient.createNode(servicePath,JSON.toJSONString(serviceURL));
         }
 
-
     }
 }
