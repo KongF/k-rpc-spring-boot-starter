@@ -16,15 +16,15 @@ import java.util.concurrent.CountDownLatch;
 public class ZookeeperConfig {
     private static final Logger logger = LoggerFactory.getLogger(ZookeeperConfig.class);
 
-    @Value("${zookeeper.address}")
+    //@Value("${zookeeper.address}")
     private    String connectString = "127.0.0.1:2181";
 
-    @Value("${zookeeper.timeout}")
+    //@Value("${zookeeper.timeout}")
     private  int timeout = 4000;
 
 
-    @Bean(name = "zkClient")
-    public ZooKeeper zkClient(){
+    @Bean(name = "zookeeper")
+    public ZooKeeper zookeeper(){
         ZooKeeper zooKeeper=null;
         try {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
