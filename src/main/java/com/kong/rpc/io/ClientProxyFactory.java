@@ -7,6 +7,7 @@ import com.kong.rpc.execption.KrpcException;
 import com.kong.rpc.io.client.ServerDiscory;
 import com.kong.rpc.io.protocol.MessageProtocol;
 import com.kong.rpc.model.ServiceResourse;
+import com.kong.rpc.registry.cache.ClientServiceDiscoveryCache;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -37,7 +38,15 @@ public class ClientProxyFactory {
     private List<ServiceResourse> getServiceList(String serviceName){
         List<ServiceResourse> serviceList;
         synchronized (serviceName){
-            serviceList=null;
+            if(ClientServiceDiscoveryCache.isEmpty(serviceName)){
+                serviceList = serverDiscory.getServiceList(serviceName);
+                if(serviceList == null || serviceList.size()<=0){
+                    throw new KrpcException("No provider available!");
+                }
+                ClientServiceDiscoveryCache.put(serviceName,serviceList);
+            }else {
+                serviceList = ClientServiceDiscoveryCache.get(serviceName);
+            }
         }
         return serviceList;
     }
