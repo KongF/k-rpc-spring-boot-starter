@@ -4,10 +4,11 @@ import com.kong.rpc.cluster.LoadBalance;
 import com.kong.rpc.common.KrpcRequest;
 import com.kong.rpc.common.KrpcResponse;
 import com.kong.rpc.execption.KrpcException;
-import com.kong.rpc.io.client.ServerDiscory;
+import com.kong.rpc.io.client.ServerDiscovery;
 import com.kong.rpc.io.protocol.MessageProtocol;
 import com.kong.rpc.model.ServiceResourse;
 import com.kong.rpc.registry.cache.ClientServiceDiscoveryCache;
+import org.apache.zookeeper.KeeperException;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -24,7 +25,7 @@ import java.util.UUID;
  * @author 10285
  */
 public class ClientProxyFactory {
-    private ServerDiscory serverDiscory;
+    private ServerDiscovery serverDiscovery;
     private NetClient netClient;
     private Map<String, MessageProtocol> supportProtocols;
     private Map<Class<?>,Object> objectCache = new HashMap<>();
@@ -35,11 +36,11 @@ public class ClientProxyFactory {
      * @param serviceName
      * @return
      */
-    private List<ServiceResourse> getServiceList(String serviceName){
+    private List<ServiceResourse> getServiceList(String serviceName) throws KeeperException, InterruptedException {
         List<ServiceResourse> serviceList;
         synchronized (serviceName){
             if(ClientServiceDiscoveryCache.isEmpty(serviceName)){
-                serviceList = serverDiscory.getServiceList(serviceName);
+                serviceList = serverDiscovery.getServiceList(serviceName);
                 if(serviceList == null || serviceList.size()<=0){
                     throw new KrpcException("No provider available!");
                 }
@@ -104,12 +105,12 @@ public class ClientProxyFactory {
         return (T) objectCache.computeIfAbsent(clazz, c-> Proxy.newProxyInstance(c.getClassLoader(),new Class[]{c},new ClientInvocationHandler(c)));
     }
 
-    public ServerDiscory getServerDiscory() {
-        return serverDiscory;
+    public ServerDiscovery getServerDiscovery() {
+        return serverDiscovery;
     }
 
-    public void setServerDiscory(ServerDiscory serverDiscory) {
-        this.serverDiscory = serverDiscory;
+    public void setServerDiscovery(ServerDiscovery serverDiscovery) {
+        this.serverDiscovery = serverDiscovery;
     }
 
     public NetClient getNetClient() {
