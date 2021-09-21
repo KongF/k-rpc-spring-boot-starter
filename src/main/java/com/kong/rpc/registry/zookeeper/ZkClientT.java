@@ -1,34 +1,29 @@
 package com.kong.rpc.registry.zookeeper;
 
-import com.kong.rpc.execption.zookeeper.ZkException;
-import com.kong.rpc.execption.zookeeper.ZkNoNodeException;
-import com.kong.rpc.execption.zookeeper.ZkNodeExistsException;
+import com.kong.rpc.registry.zookeeper.zkhelper.WatcherApi;
 import org.apache.zookeeper.*;
-import org.apache.zookeeper.data.ACL;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 
-@Component
-public class ZkClient {
+//@Component
+public class ZkClientT {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ZkClient.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZkClientT.class);
 
     private ZooKeeper zooKeeper;
-    public ZkClient() throws IOException {
+    public ZkClientT() throws IOException {
+        super();
         this.zooKeeper = new ZooKeeper("127.0.0.1:2181",4000,new WatcherApi());
     }
-    public ZkClient(String connectString, int sessionTimeout, Watcher watcher) {
+    public ZkClientT(String connectString, int sessionTimeout, Watcher watcher) {
+        super();
         try {
             final CountDownLatch countDownLatch = new CountDownLatch(1);
             //连接成功后，会回调watcher监听，此连接操作是异步的，执行完new语句后，直接调用后续代码
@@ -174,7 +169,6 @@ public class ZkClient {
         List<String> list = zooKeeper.getChildren(path, false);
         return list;
     }
-
     /**
      * 获取指定节点的值
      * @param path

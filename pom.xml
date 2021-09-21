@@ -3,7 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.3.2.RELEASE</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
     <groupId>k-rpc</groupId>
     <artifactId>com.kong.rpc</artifactId>
     <version>koalas-1.0-SNAPSHOT</version>
@@ -23,7 +28,6 @@
         <resteasy.version>3.6.3.Final</resteasy.version>
         <jaxrs.api.version>1.0.2.Final</jaxrs.api.version>
         <cxf.version>3.0.14</cxf.version>
-        <jetty.version>7.5.4.v20111024</jetty.version>
         <curator.version>4.0.1</curator.version>
         <opentracing.version>0.22.0</opentracing.version>
         <dubbo.version>2.6.7</dubbo.version>
@@ -61,6 +65,7 @@
         <!-- Build args -->
         <module.install.skip>true</module.install.skip>
         <module.deploy.skip>true</module.deploy.skip>
+        <protostuff.version>1.0.7</protostuff.version>
     </properties>
 
     <build>
@@ -146,6 +151,16 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure</artifactId>
+        </dependency>
         <!--spring start -->
         <dependency>
             <groupId>org.springframework</groupId>
@@ -228,6 +243,29 @@
             <version>3.5.5</version>
         </dependency>
         <!-- zookeeper end -->
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.10</version>
+        </dependency>
+        <!-- protostuff start -->
+        <dependency>
+            <groupId>com.dyuproject.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+            <version>${protostuff.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dyuproject.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+            <version>${protostuff.version}</version>
+        </dependency>
+        <!-- protostuff end -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>29.0-jre</version>
+        </dependency>
     </dependencies>
 
    <repositories>

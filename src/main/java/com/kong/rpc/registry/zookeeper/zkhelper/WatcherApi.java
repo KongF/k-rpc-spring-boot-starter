@@ -1,4 +1,4 @@
-package com.kong.rpc.registry.zookeeper;
+package com.kong.rpc.registry.zookeeper.zkhelper;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;

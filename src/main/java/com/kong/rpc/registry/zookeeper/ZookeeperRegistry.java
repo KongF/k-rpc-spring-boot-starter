@@ -4,12 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.kong.rpc.model.ServiceObject;
 import com.kong.rpc.model.ServiceResourse;
 import com.kong.rpc.registry.DefaultRegistry;
+import com.kong.rpc.serializer.ZookeeperSerializer;
+import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.annotation.Resource;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
@@ -32,9 +32,9 @@ public class ZookeeperRegistry extends DefaultRegistry {
      */
     private ZkClient zkClient;
 
-    public ZookeeperRegistry(String zkAddress, Integer port, String protocol, Integer weight) throws IOException {
-        this.zkClient = new ZkClient(zkAddress,40000,new WatcherApi());
-        //zkClient.setZkSerializer(new ZookeeperSerializer());
+    public ZookeeperRegistry(String zkAddress, Integer port, String protocol, Integer weight)  {
+        this.zkClient = new ZkClient(zkAddress);
+        zkClient.setZkSerializer(new ZookeeperSerializer());
         this.port = port;
         this.protocol = protocol;
         this.weight = weight;
@@ -55,13 +55,13 @@ public class ZookeeperRegistry extends DefaultRegistry {
         String serviceName = serviceResourse.getName();
         String servicePath = ZK_SERVICE_PATH + PATH_DELIMITER + serviceName + "/service";
         //创建zookeeper服务永久节点
-        if(!zkClient.exists(servicePath,true)){
+        if(!zkClient.exists(servicePath)){
             zkClient.createPersistent(servicePath,true);
         }
         String urlPath = servicePath+PATH_DELIMITER+urlJson;
-        if(zkClient.exists(urlPath,true)){
+        if(zkClient.exists(urlPath)){
             //删除之前节点
-            zkClient.deleteNode(urlPath);
+            zkClient.delete(urlPath);
         }
         //创建临时节点，会话失效时清理节点
         zkClient.createEphemeral(urlPath);

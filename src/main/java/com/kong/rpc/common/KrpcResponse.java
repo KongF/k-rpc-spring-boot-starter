@@ -15,7 +15,9 @@ public class KrpcResponse implements Serializable {
     private Exception exception;
     private KrpcStatusEnum statusEnum;
 
-    public KrpcResponse(){}
+    public KrpcResponse(KrpcStatusEnum statusEnum){
+        this.statusEnum = statusEnum;
+    }
 
     public String getRequestId() {
         return requestId;

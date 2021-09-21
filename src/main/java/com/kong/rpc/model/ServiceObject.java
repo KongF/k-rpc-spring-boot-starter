@@ -16,6 +16,12 @@ public class ServiceObject {
      */
     private Object object;
 
+    public ServiceObject(String serviceName, Class<?> clazz, Object object) {
+        this.serviceName = serviceName;
+        this.clazz = clazz;
+        this.object = object;
+    }
+
     public String getServiceName() {
         return serviceName;
     }

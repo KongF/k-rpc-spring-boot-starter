@@ -3,9 +3,9 @@ package com.kong.rpc.io.client;
 import com.alibaba.fastjson.JSON;
 import com.kong.rpc.constants.KrpcConstant;
 import com.kong.rpc.model.ServiceResourse;
-import com.kong.rpc.registry.zookeeper.WatcherApi;
-import com.kong.rpc.registry.zookeeper.ZkClient;
 import com.kong.rpc.registry.zookeeper.ZookeeperRegistry;
+import com.kong.rpc.serializer.ZookeeperSerializer;
+import org.I0Itec.zkclient.ZkClient;
 import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +21,13 @@ public class ZookeeperServerDiscovery implements ServerDiscovery {
     private final static Logger LOGGER   = LoggerFactory.getLogger(ZookeeperRegistry.class);
     private ZkClient zkClient;
 
-    public ZookeeperServerDiscovery(String zkAddress,int sessionTimeout){
-        zkClient = new ZkClient(zkAddress,sessionTimeout,new WatcherApi());
+    public ZkClient getZkClient() {
+        return zkClient;
+    }
+
+    public ZookeeperServerDiscovery(String zkAddress){
+        zkClient = new ZkClient(zkAddress);
+        zkClient.setZkSerializer(new ZookeeperSerializer());
     }
 
     /**
