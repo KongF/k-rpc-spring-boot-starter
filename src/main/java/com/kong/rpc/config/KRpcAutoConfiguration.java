@@ -6,6 +6,7 @@ import com.kong.rpc.cluster.LoadBalance;
 import com.kong.rpc.config.properties.RpcProperties;
 import com.kong.rpc.execption.KrpcException;
 import com.kong.rpc.io.ClientProxyFactory;
+import com.kong.rpc.io.NettyNetClient;
 import com.kong.rpc.io.NettyRpcServer;
 import com.kong.rpc.io.client.ServerDiscovery;
 import com.kong.rpc.io.client.ZookeeperServerDiscovery;
@@ -48,8 +49,8 @@ public class KRpcAutoConfiguration {
         return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registrer);
     }
     @Bean
-    public RpcServer rpcServer(RequestHandler requestHandler,RpcProperties properties){
-        return new NettyRpcServer(properties.getServerPort(),properties.getProtocol(),requestHandler);
+    public RpcServer rpcServer(RequestHandler requestHandler,RpcProperties rpcProperties){
+        return new NettyRpcServer(rpcProperties.getServerPort(),rpcProperties.getProtocol(),requestHandler);
     }
     @Bean
     public ClientProxyFactory clientProxyFactory(RpcProperties rpcProperties){
@@ -60,7 +61,9 @@ public class KRpcAutoConfiguration {
         clientProxyFactory.setSupportProtocols(supportMessageProtocols);
         LoadBalance loadBalance = getLoadBalance(rpcProperties.getProtocol());
         clientProxyFactory.setLoadBalance(loadBalance);
-        clientProxyFactory.setNetClient(new Netty);
+        clientProxyFactory.setNetClient(new NettyNetClient());
+
+        return clientProxyFactory;
     }
 
     public MessageProtocol getMessagePropotocol(String name){

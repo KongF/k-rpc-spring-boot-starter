@@ -2,6 +2,8 @@ package com.kong.rpc.io.handler;
 
 import com.kong.rpc.common.KrpcRequest;
 import com.kong.rpc.common.KrpcResponse;
+import com.kong.rpc.execption.KrpcException;
+import com.kong.rpc.io.KrpcFuture;
 import com.kong.rpc.io.NettyNetClient;
 import com.kong.rpc.io.protocol.MessageProtocol;
 import io.netty.buffer.ByteBuf;
@@ -13,14 +15,11 @@ import io.netty.util.ReferenceCountUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author 2YSP
- * @date 2020/8/19 20:06
- */
 public class SendHandlerV2 extends ChannelInboundHandlerAdapter {
 
     private static Logger logger = LoggerFactory.getLogger(SendHandlerV2.class);
@@ -38,7 +37,7 @@ public class SendHandlerV2 extends ChannelInboundHandlerAdapter {
 
     private String remoteAddress;
 
-    private static Map<String, RpcFuture<KrpcResponse>> requestMap = new ConcurrentHashMap<>();
+    private static Map<String, KrpcFuture<KrpcResponse>> requestMap = new ConcurrentHashMap<>();
 
     private MessageProtocol messageProtocol;
 
@@ -69,7 +68,7 @@ public class SendHandlerV2 extends ChannelInboundHandlerAdapter {
         // 手动回收
         ReferenceCountUtil.release(byteBuf);
         KrpcResponse response = messageProtocol.unmarshallingResponse(resp);
-        RpcFuture<KrpcResponse> future = requestMap.get(response.getRequestId());
+        KrpcFuture<KrpcResponse> future = requestMap.get(response.getRequestId());
         future.setResponse(response);
     }
 
@@ -100,7 +99,7 @@ public class SendHandlerV2 extends ChannelInboundHandlerAdapter {
 
     public KrpcResponse sendRequest(KrpcRequest request) {
         KrpcResponse response;
-        RpcFuture<KrpcResponse> future = new RpcFuture<>();
+        KrpcFuture<KrpcResponse> future = new KrpcFuture<>();
         requestMap.put(request.getRequestId(), future);
         try {
             byte[] data = messageProtocol.marshallingRequest(request);
@@ -111,10 +110,10 @@ public class SendHandlerV2 extends ChannelInboundHandlerAdapter {
                 // 等待响应
                 response = future.get(RESPONSE_WAIT_TIME, TimeUnit.SECONDS);
             }else {
-                throw new RpcException("establish channel time out");
+                throw new KrpcException("establish channel time out");
             }
         } catch (Exception e) {
-            throw new RpcException(e.getMessage());
+            throw new KrpcException(e.getMessage());
         } finally {
             requestMap.remove(request.getRequestId());
         }
