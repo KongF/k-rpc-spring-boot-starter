@@ -4,7 +4,7 @@ import com.kong.rpc.common.KrpcRequest;
 import com.kong.rpc.common.KrpcResponse;
 import com.kong.rpc.execption.KrpcException;
 import com.kong.rpc.io.KrpcFuture;
-import com.kong.rpc.io.NettyNetClient;
+import com.kong.rpc.io.netty.NettyNetClient;
 import com.kong.rpc.io.protocol.MessageProtocol;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;

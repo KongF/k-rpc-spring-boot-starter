@@ -1,8 +1,9 @@
-package com.kong.rpc.io;
+package com.kong.rpc.io.netty;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.kong.rpc.common.KrpcRequest;
 import com.kong.rpc.common.KrpcResponse;
+import com.kong.rpc.io.NetClient;
 import com.kong.rpc.io.protocol.MessageProtocol;
 import com.kong.rpc.model.ServiceResourse;
 import io.netty.channel.EventLoopGroup;

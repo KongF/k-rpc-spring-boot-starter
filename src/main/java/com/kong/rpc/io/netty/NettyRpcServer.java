@@ -1,4 +1,4 @@
-package com.kong.rpc.io;
+package com.kong.rpc.io.netty;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.kong.rpc.io.handler.RequestHandler;
@@ -14,7 +14,6 @@ import io.netty.handler.codec.FixedLengthFrameDecoder;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.ReferenceCountUtil;
-import org.apache.zookeeper.proto.RequestHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
