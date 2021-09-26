@@ -9,11 +9,10 @@
         <version>2.3.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>k-rpc</groupId>
-    <artifactId>com.kong.rpc</artifactId>
-    <version>koalas-1.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
-    <name>k-rpc</name>
+    <groupId>com.kong.rpc</groupId>
+    <artifactId>k-rpc-spring-boot-starter</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>k-rpc-spring-boot-starter</name>
     <url>http://maven.apache.org</url>
     <description>k-rpc RPC FRAMEORK BY JAVA.</description>
 
@@ -23,7 +22,7 @@
         <bytebuddy.version>1.9.8</bytebuddy.version>
         <netty.version>4.1.44.Final</netty.version>
         <!-- 3rd extends libs -->
-        <spring.version>4.2.5.RELEASE</spring.version>
+        <spring.version>5.2.0.RELEASE</spring.version>
         <servlet.version>2.5</servlet.version>
         <resteasy.version>3.6.3.Final</resteasy.version>
         <jaxrs.api.version>1.0.2.Final</jaxrs.api.version>
@@ -68,87 +67,6 @@
         <protostuff.version>1.0.7</protostuff.version>
     </properties>
 
-    <build>
-        <sourceDirectory>src/main/java</sourceDirectory>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
-        <testSourceDirectory>src/test/java</testSourceDirectory>
-        <testResources>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-        <outputDirectory>target/classes</outputDirectory>
-        <testOutputDirectory>target/test-classes</testOutputDirectory>
-        <directory>target</directory>
-        <finalName>koalas</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                    <encoding>UTF8</encoding>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-war-plugin</artifactId>
-                <version>2.1.1</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.thrift.tools</groupId>
-                <artifactId>maven-thrift-plugin</artifactId>
-                <version>0.1.11</version>
-                <configuration>
-                    <!--<thriftExecutable>/usr/local/bin/thrift</thriftExecutable>-->
-                    <!--<thriftSourceRoot>src/main/thrift</thriftSourceRoot>-->
-                    <!--<outputDirectory>src/main/java</outputDirectory>-->
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>thrift-sources</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                    </execution>
-                    <!--<execution>-->
-                    <!--<id>thrift-test-sources</id>-->
-                    <!--<phase>generate-test-sources</phase>-->
-                    <!--<goals>-->
-                    <!--<goal>testCompile</goal>-->
-                    <!--</goals>-->
-                    <!--</execution>-->
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencies>
         <dependency>
@@ -235,14 +153,13 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.9</version>
         </dependency>
-        <!-- zk client -->
         <!-- zookeeper start -->
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
-            <version>3.5.5</version>
-        </dependency>
+
         <!-- zookeeper end -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.101tec</groupId>
             <artifactId>zkclient</artifactId>

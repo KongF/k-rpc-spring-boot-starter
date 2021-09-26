@@ -15,6 +15,9 @@ import com.kong.rpc.registry.Registry;
 import com.kong.rpc.registry.RpcProcessor;
 import com.kong.rpc.registry.RpcServer;
 import com.kong.rpc.registry.zookeeper.ZookeeperRegistry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,12 +31,14 @@ import java.util.ServiceLoader;
 @Configuration
 @EnableConfigurationProperties(RpcProperties.class)
 public class KRpcAutoConfiguration {
+    private static Logger LOGGER = LoggerFactory.getLogger(KRpcAutoConfiguration.class);
     @Bean
     public RpcProperties rpcProperties(){
         return new RpcProperties();
     }
     @Bean
-    public Registry serverRegister(RpcProperties rpcProperties){
+    public Registry serverRegister(@Autowired RpcProperties rpcProperties){
+        LOGGER.info("rpcProperties");
         return new ZookeeperRegistry(
                 rpcProperties.getRegisterAddress(),
                 rpcProperties.getServerPort(),
@@ -42,15 +47,18 @@ public class KRpcAutoConfiguration {
                 );
     }
     @Bean
-    public RequestHandler requestHandler(Registry registrer,RpcProperties rpcProperties){
+    public RequestHandler requestHandler(@Autowired Registry registrer,@Autowired RpcProperties rpcProperties){
+        LOGGER.info("RequestHandler");
         return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registrer);
     }
     @Bean
-    public RpcServer rpcServer(RequestHandler requestHandler,RpcProperties rpcProperties){
+    public RpcServer rpcServer(@Autowired RequestHandler requestHandler,@Autowired RpcProperties rpcProperties){
+        LOGGER.info("rpcServer");
         return new NettyRpcServer(rpcProperties.getServerPort(),rpcProperties.getProtocol(),requestHandler);
     }
     @Bean
-    public ClientProxyFactory clientProxyFactory(RpcProperties rpcProperties){
+    public ClientProxyFactory clientProxyFactory(@Autowired RpcProperties rpcProperties){
+        LOGGER.info("clientproxyfactory");
         ClientProxyFactory clientProxyFactory = new ClientProxyFactory();
         clientProxyFactory.setServerDiscovery(new ZookeeperServerDiscovery(rpcProperties.getRegisterAddress()));
         //框架支持的协议
@@ -78,7 +86,7 @@ public class KRpcAutoConfiguration {
     }
 
     @Bean
-    public RpcProcessor rpcProcessor(ClientProxyFactory clientProxyFactory, Registry register, RpcServer rpcServer){
+    public RpcProcessor rpcProcessor(@Autowired ClientProxyFactory clientProxyFactory,@Autowired Registry register,@Autowired RpcServer rpcServer){
         return new RpcProcessor(clientProxyFactory,register,rpcServer);
     }
     private Map<String,MessageProtocol> buildSupporrtMessageProtocols(){

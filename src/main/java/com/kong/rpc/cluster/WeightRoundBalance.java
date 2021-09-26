@@ -8,7 +8,7 @@ import java.util.List;
  * 权重负载均衡
  * @author 10285
  */
-public class WeghtRoundBalance implements LoadBalance {
+public class WeightRoundBalance implements LoadBalance {
     private static int index;
     @Override
     public ServiceResourse chooseOne(List<ServiceResourse> services) {

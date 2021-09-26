@@ -15,9 +15,22 @@ public class RpcProperties {
      * export port
      */
     private Integer serverPort = 9999;
+
     private String protocol  = "java";
 
     private Integer weight = 1;
+    /**
+     * 负载均衡算法
+     */
+    private String loadBalance = "random";
+
+    public String getLoadBalance() {
+        return loadBalance;
+    }
+
+    public void setLoadBalance(String loadBalance) {
+        this.loadBalance = loadBalance;
+    }
 
     public Integer getWeight() {
         return weight;
