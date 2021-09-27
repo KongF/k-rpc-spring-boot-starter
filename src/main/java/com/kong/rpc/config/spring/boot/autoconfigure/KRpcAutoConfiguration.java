@@ -1,4 +1,4 @@
-package com.kong.rpc.config;
+package com.kong.rpc.config.spring.boot.autoconfigure;
 
 import com.kong.rpc.annotation.RpcLoadBalance;
 import com.kong.rpc.annotation.RpcMessageProtocol;
