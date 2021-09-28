@@ -1,9 +1,12 @@
 package com.kong.rpc.io.protocol;
 
+import com.kong.rpc.annotation.RpcMessageProtocol;
 import com.kong.rpc.common.KrpcRequest;
 import com.kong.rpc.common.KrpcResponse;
+import com.kong.rpc.constants.KrpcConstant;
 import com.kong.rpc.serializer.SerializerUtil;
 
+@RpcMessageProtocol(KrpcConstant.PROTOCOL_PROTOBUF)
 public class ProtoBufProtocol implements MessageProtocol{
     @Override
     public byte[] marshallingRequest(KrpcRequest request) throws Exception {

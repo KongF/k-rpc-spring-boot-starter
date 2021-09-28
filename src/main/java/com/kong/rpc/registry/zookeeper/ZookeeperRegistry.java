@@ -10,7 +10,6 @@ import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.URLEncoder;
@@ -33,6 +32,7 @@ public class ZookeeperRegistry extends DefaultRegistry {
     private ZkClient zkClient;
 
     public ZookeeperRegistry(String zkAddress, Integer port, String protocol, Integer weight)  {
+        LOGGER.info("---------------------");
         this.zkClient = new ZkClient(zkAddress);
         zkClient.setZkSerializer(new ZookeeperSerializer());
         this.port = port;

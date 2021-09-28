@@ -11,18 +11,18 @@ import java.lang.reflect.Method;
 
 public class RequestHandler {
     private MessageProtocol protocol;
-    private Registry registrer;
+    private Registry registry;
 
-    public RequestHandler(MessageProtocol protocol, Registry registrer) {
+    public RequestHandler(MessageProtocol protocol, Registry registry) {
         this.protocol = protocol;
-        this.registrer = registrer;
+        this.registry = registry;
     }
 
     public byte[] handleRequest(byte[] data) throws Exception {
         //解组消息
         KrpcRequest request = this.protocol.unmarshallingRequest(data);
         //获取服务
-        ServiceObject serviceObject = registrer.getServiceObject(request.getServiceName());
+        ServiceObject serviceObject = registry.getServiceObject(request.getServiceName());
         KrpcResponse response = null;
         if(serviceObject==null){
             response = new KrpcResponse(KrpcStatusEnum.NOT_FOUND);
@@ -49,11 +49,11 @@ public class RequestHandler {
         this.protocol = protocol;
     }
 
-    public Registry getRegistrer() {
-        return registrer;
+    public Registry getRegistry() {
+        return registry;
     }
 
-    public void setRegistrer(Registry registrer) {
-        this.registrer = registrer;
+    public void setRegistry(Registry registry) {
+        this.registry = registry;
     }
 }

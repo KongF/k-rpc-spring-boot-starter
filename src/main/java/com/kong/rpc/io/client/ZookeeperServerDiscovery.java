@@ -6,7 +6,6 @@ import com.kong.rpc.model.ServiceResourse;
 import com.kong.rpc.registry.zookeeper.ZookeeperRegistry;
 import com.kong.rpc.serializer.ZookeeperSerializer;
 import org.I0Itec.zkclient.ZkClient;
-import org.apache.zookeeper.KeeperException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,6 +16,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * @author k
+ */
 public class ZookeeperServerDiscovery implements ServerDiscovery {
     private final static Logger LOGGER   = LoggerFactory.getLogger(ZookeeperRegistry.class);
     private ZkClient zkClient;
@@ -36,7 +38,7 @@ public class ZookeeperServerDiscovery implements ServerDiscovery {
      * @return
      */
     @Override
-    public List<ServiceResourse> getServiceList(String name) throws KeeperException, InterruptedException {
+    public List<ServiceResourse> getServiceList(String name) {
         String servicePath = KrpcConstant.ZK_SERVICE_PATH+KrpcConstant.PATH_DELIMITER+name+"/service";
         List<String> children = zkClient.getChildren(servicePath);
         return Optional.ofNullable(children).orElse(new ArrayList<>()).stream().map(str->{

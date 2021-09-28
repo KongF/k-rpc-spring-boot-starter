@@ -31,15 +31,16 @@ public class RpcProcessor implements ApplicationListener<ContextRefreshedEvent> 
 
     private RpcServer rpcServer;
 
-    public RpcProcessor(ClientProxyFactory clientProxyFactory, Registry register, RpcServer rpcServer) {
+    public RpcProcessor(ClientProxyFactory clientProxyFactory, Registry registry, RpcServer rpcServer) {
         this.clientProxyFactory=clientProxyFactory;
-        this.registry = register;
+        this.registry = registry;
         this.rpcServer=rpcServer;
     }
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         //spring 启动后推送事件通知
+        LOGGER.info("spring 启动完毕后发送事件");
         if(Objects.isNull(event.getApplicationContext().getParent())){
             ApplicationContext context = event.getApplicationContext();
             startServer(context);

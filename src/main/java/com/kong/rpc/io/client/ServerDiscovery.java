@@ -1,7 +1,6 @@
 package com.kong.rpc.io.client;
 
 import com.kong.rpc.model.ServiceResourse;
-import org.apache.zookeeper.KeeperException;
 
 import java.util.List;
 
@@ -11,5 +10,5 @@ public interface ServerDiscovery {
      * @param name
      * @return
      */
-    public List<ServiceResourse> getServiceList(String name) throws KeeperException, InterruptedException;
+    List<ServiceResourse> getServiceList(String name);
 }

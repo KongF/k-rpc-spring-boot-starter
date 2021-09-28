@@ -36,7 +36,7 @@ public class ClientProxyFactory {
      * @param serviceName
      * @return
      */
-    private List<ServiceResourse> getServiceList(String serviceName) throws KeeperException, InterruptedException {
+    private List<ServiceResourse> getServiceList(String serviceName)  {
         List<ServiceResourse> serviceList;
         synchronized (serviceName){
             if(ClientServiceDiscoveryCache.isEmpty(serviceName)){

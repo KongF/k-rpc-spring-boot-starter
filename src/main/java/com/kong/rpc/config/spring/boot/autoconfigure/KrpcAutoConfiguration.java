@@ -28,16 +28,19 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.ServiceLoader;
 
+/**
+ * @author k
+ */
 @Configuration
 @EnableConfigurationProperties(RpcProperties.class)
-public class KRpcAutoConfiguration {
-    private static Logger LOGGER = LoggerFactory.getLogger(KRpcAutoConfiguration.class);
+public class KrpcAutoConfiguration {
+    private static Logger LOGGER = LoggerFactory.getLogger(KrpcAutoConfiguration.class);
     @Bean
     public RpcProperties rpcProperties(){
         return new RpcProperties();
     }
     @Bean
-    public Registry serverRegister(@Autowired RpcProperties rpcProperties){
+    public Registry registry(@Autowired RpcProperties rpcProperties){
         LOGGER.info("rpcProperties");
         return new ZookeeperRegistry(
                 rpcProperties.getRegisterAddress(),
@@ -47,9 +50,9 @@ public class KRpcAutoConfiguration {
                 );
     }
     @Bean
-    public RequestHandler requestHandler(@Autowired Registry registrer,@Autowired RpcProperties rpcProperties){
+    public RequestHandler requestHandler(@Autowired Registry registry,@Autowired RpcProperties rpcProperties){
         LOGGER.info("RequestHandler");
-        return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registrer);
+        return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registry);
     }
     @Bean
     public RpcServer rpcServer(@Autowired RequestHandler requestHandler,@Autowired RpcProperties rpcProperties){
@@ -86,8 +89,8 @@ public class KRpcAutoConfiguration {
     }
 
     @Bean
-    public RpcProcessor rpcProcessor(@Autowired ClientProxyFactory clientProxyFactory,@Autowired Registry register,@Autowired RpcServer rpcServer){
-        return new RpcProcessor(clientProxyFactory,register,rpcServer);
+    public RpcProcessor rpcProcessor(@Autowired ClientProxyFactory clientProxyFactory,@Autowired Registry registry,@Autowired RpcServer rpcServer){
+        return new RpcProcessor(clientProxyFactory,registry,rpcServer);
     }
     private Map<String,MessageProtocol> buildSupporrtMessageProtocols(){
         Map<String,MessageProtocol> supportMessageProtocols = new HashMap<>();
