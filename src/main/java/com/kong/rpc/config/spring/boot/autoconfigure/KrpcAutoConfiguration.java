@@ -1,5 +1,6 @@
 package com.kong.rpc.config.spring.boot.autoconfigure;
 
+import com.alibaba.fastjson.JSONObject;
 import com.kong.rpc.annotation.RpcLoadBalance;
 import com.kong.rpc.annotation.RpcMessageProtocol;
 import com.kong.rpc.cluster.LoadBalance;
@@ -35,8 +36,14 @@ import java.util.ServiceLoader;
 @EnableConfigurationProperties(RpcProperties.class)
 public class KrpcAutoConfiguration {
     private static Logger LOGGER = LoggerFactory.getLogger(KrpcAutoConfiguration.class);
+
+    public KrpcAutoConfiguration() {
+        System.out.println("TestConfiguration容器启动初始化。。。");
+    }
+
     @Bean
     public RpcProperties rpcProperties(){
+        LOGGER.info("加载config");
         return new RpcProperties();
     }
     @Bean
@@ -67,7 +74,7 @@ public class KrpcAutoConfiguration {
         //框架支持的协议
         Map<String,MessageProtocol> supportMessageProtocols = buildSupporrtMessageProtocols();
         clientProxyFactory.setSupportProtocols(supportMessageProtocols);
-        LoadBalance loadBalance = getLoadBalance(rpcProperties.getProtocol());
+        LoadBalance loadBalance = getLoadBalance(rpcProperties.getLoadBalance());
         clientProxyFactory.setLoadBalance(loadBalance);
         clientProxyFactory.setNetClient(new NettyNetClient());
 

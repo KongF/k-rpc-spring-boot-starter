@@ -1,1 +1,2 @@
-org.springframework.boot.autoconfiguar.EnableAutoConfiguration=com.kong.rpc.config.spring.boot.autoconfigure.KrpcAutoConfiguration
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.kong.rpc.config.spring.boot.autoconfigure.KrpcAutoConfiguration

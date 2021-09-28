@@ -48,8 +48,7 @@ public class NettyRpcServer extends RpcServer {
                 @Override
                 protected void initChannel(SocketChannel socketChannel) throws Exception {
                     ChannelPipeline pipeline = socketChannel.pipeline();
-                    pipeline.addLast(new FixedLengthFrameDecoder(20))
-                    .addLast(new ChannelRequestHandler());
+                    pipeline.addLast(new ChannelRequestHandler());
                 }
             });
             ChannelFuture future = b.bind(port).sync();
