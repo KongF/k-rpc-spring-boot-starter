@@ -1,1 +1,2 @@
 com.kong.rpc.cluster.WeightRoundBalance
+com.kong.rpc.cluster.RandomBalance
