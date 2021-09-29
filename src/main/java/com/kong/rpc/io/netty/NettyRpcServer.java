@@ -1,5 +1,6 @@
 package com.kong.rpc.io.netty;
 
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.kong.rpc.io.handler.RequestHandler;
 import com.kong.rpc.registry.RpcServer;

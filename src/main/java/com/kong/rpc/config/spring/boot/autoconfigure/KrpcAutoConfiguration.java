@@ -82,6 +82,8 @@ public class KrpcAutoConfiguration {
     }
 
     public MessageProtocol getMessagePropotocol(String name){
+        LOGGER.info("messgae protocol config!"+name);
+
         ServiceLoader<MessageProtocol> loader = ServiceLoader.load(MessageProtocol.class);
         Iterator<MessageProtocol> iterator = loader.iterator();
         while(iterator.hasNext()){
@@ -92,7 +94,7 @@ public class KrpcAutoConfiguration {
                 return messageProtocol;
             }
         }
-        throw new KrpcException("invalid messgae protocol config!");
+        throw new KrpcException("invalid messgae protocol config!"+name+JSONObject.toJSONString(loader));
     }
 
     @Bean
@@ -106,7 +108,7 @@ public class KrpcAutoConfiguration {
         while (iterator.hasNext()){
             MessageProtocol messageProtocol = iterator.next();
             RpcMessageProtocol ano = messageProtocol.getClass().getAnnotation(RpcMessageProtocol.class);
-            Assert.notNull(ano,"message protocol name can not be empty!");
+            Assert.notNull(ano,"message protocol name can not be empty!"+JSONObject.toJSONString(ano));
             supportMessageProtocols.put(ano.value(),messageProtocol);
         }
         return supportMessageProtocols;

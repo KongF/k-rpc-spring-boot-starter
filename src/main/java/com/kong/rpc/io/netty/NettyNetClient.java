@@ -13,7 +13,6 @@ import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.FixedLengthFrameDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -81,8 +80,7 @@ public class NettyNetClient implements NetClient {
                            @Override
                            protected void initChannel(SocketChannel socketChannel) throws Exception{
                                ChannelPipeline pipeline = socketChannel.pipeline();
-                               pipeline.addLast(new FixedLengthFrameDecoder(20))
-                                       .addLast(handlerV2);
+                               pipeline.addLast(handlerV2);
                            }
                        });
                 ChannelFuture channelFuture = bootstrap.connect(serverAddress,Integer.parseInt(serverPort));

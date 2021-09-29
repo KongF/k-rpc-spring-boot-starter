@@ -1,1 +1,2 @@
 com.kong.rpc.io.protocol.ProtoBufProtocol
+com.kong.rpc.io.protocol.JavaSerializeProtocol
