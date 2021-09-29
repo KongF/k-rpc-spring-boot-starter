@@ -37,18 +37,12 @@ import java.util.ServiceLoader;
 public class KrpcAutoConfiguration {
     private static Logger LOGGER = LoggerFactory.getLogger(KrpcAutoConfiguration.class);
 
-    public KrpcAutoConfiguration() {
-        System.out.println("TestConfiguration容器启动初始化。。。");
-    }
-
     @Bean
     public RpcProperties rpcProperties(){
-        LOGGER.info("加载config");
         return new RpcProperties();
     }
     @Bean
     public Registry registry(@Autowired RpcProperties rpcProperties){
-        LOGGER.info("rpcProperties");
         return new ZookeeperRegistry(
                 rpcProperties.getRegisterAddress(),
                 rpcProperties.getServerPort(),
@@ -58,17 +52,14 @@ public class KrpcAutoConfiguration {
     }
     @Bean
     public RequestHandler requestHandler(@Autowired Registry registry,@Autowired RpcProperties rpcProperties){
-        LOGGER.info("RequestHandler");
         return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registry);
     }
     @Bean
     public RpcServer rpcServer(@Autowired RequestHandler requestHandler,@Autowired RpcProperties rpcProperties){
-        LOGGER.info("rpcServer");
         return new NettyRpcServer(rpcProperties.getServerPort(),rpcProperties.getProtocol(),requestHandler);
     }
     @Bean
     public ClientProxyFactory clientProxyFactory(@Autowired RpcProperties rpcProperties){
-        LOGGER.info("clientproxyfactory");
         ClientProxyFactory clientProxyFactory = new ClientProxyFactory();
         clientProxyFactory.setServerDiscovery(new ZookeeperServerDiscovery(rpcProperties.getRegisterAddress()));
         //框架支持的协议
