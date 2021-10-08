@@ -51,15 +51,15 @@ public class KrpcAutoConfiguration {
                 );
     }
     @Bean
-    public RequestHandler requestHandler(@Autowired Registry registry,@Autowired RpcProperties rpcProperties){
+    public RequestHandler requestHandler(Registry registry,RpcProperties rpcProperties){
         return new RequestHandler(getMessagePropotocol(rpcProperties.getProtocol()),registry);
     }
     @Bean
-    public RpcServer rpcServer(@Autowired RequestHandler requestHandler,@Autowired RpcProperties rpcProperties){
+    public RpcServer rpcServer(RequestHandler requestHandler,RpcProperties rpcProperties){
         return new NettyRpcServer(rpcProperties.getServerPort(),rpcProperties.getProtocol(),requestHandler);
     }
     @Bean
-    public ClientProxyFactory clientProxyFactory(@Autowired RpcProperties rpcProperties){
+    public ClientProxyFactory clientProxyFactory(RpcProperties rpcProperties){
         ClientProxyFactory clientProxyFactory = new ClientProxyFactory();
         clientProxyFactory.setServerDiscovery(new ZookeeperServerDiscovery(rpcProperties.getRegisterAddress()));
         //框架支持的协议
@@ -73,8 +73,6 @@ public class KrpcAutoConfiguration {
     }
 
     public MessageProtocol getMessagePropotocol(String name){
-        LOGGER.info("messgae protocol config!"+name);
-
         ServiceLoader<MessageProtocol> loader = ServiceLoader.load(MessageProtocol.class);
         Iterator<MessageProtocol> iterator = loader.iterator();
         while(iterator.hasNext()){
@@ -89,7 +87,7 @@ public class KrpcAutoConfiguration {
     }
 
     @Bean
-    public RpcProcessor rpcProcessor(@Autowired ClientProxyFactory clientProxyFactory,@Autowired Registry registry,@Autowired RpcServer rpcServer){
+    public RpcProcessor rpcProcessor(ClientProxyFactory clientProxyFactory,Registry registry,RpcServer rpcServer){
         return new RpcProcessor(clientProxyFactory,registry,rpcServer);
     }
     private Map<String,MessageProtocol> buildSupporrtMessageProtocols(){
