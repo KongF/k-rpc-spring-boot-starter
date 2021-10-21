@@ -91,7 +91,7 @@ public class KrpcAutoConfiguration {
         return new RpcProcessor(clientProxyFactory,registry,rpcServer);
     }
     private Map<String,MessageProtocol> buildSupporrtMessageProtocols(){
-        Map<String,MessageProtocol> supportMessageProtocols = new HashMap<>();
+        Map<String,MessageProtocol> supportMessageProtocols = new HashMap<>(94);
         ServiceLoader<MessageProtocol> loader = ServiceLoader.load(MessageProtocol.class);
         Iterator<MessageProtocol> iterator = loader.iterator();
         while (iterator.hasNext()){
